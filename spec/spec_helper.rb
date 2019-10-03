@@ -1,5 +1,7 @@
-require "bundler/setup"
-require "playwright/cli"
+require 'bundler/setup'
+require 'playwright/cli'
+require 'tempfile'
+require 'pry'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -10,5 +12,9 @@ RSpec.configure do |config|
 
   config.expect_with :rspec do |c|
     c.syntax = :expect
+  end
+
+  config.before do
+    $stdout = Tempfile.new
   end
 end

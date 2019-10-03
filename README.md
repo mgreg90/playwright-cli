@@ -188,7 +188,7 @@ $ hello
 ### Arguments
 Use the `argument` attribute to define arguments
 
-The `required` modifier lets you define required arguments. It defaults to `false`.
+Arguments are user inputs that are always required. If you want to define an optional input, use an option.
 ```ruby
 class HelloCli < Playwright::Cli::Base
   root :hello
