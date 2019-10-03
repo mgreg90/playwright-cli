@@ -36,6 +36,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 2.0)
+  colorize
   playwright-cli!
   pry
   pry-nav

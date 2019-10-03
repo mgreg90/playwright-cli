@@ -1,7 +1,7 @@
 Playwright::Cli
 =====
 
-This is in development. The API described below are the expected contract and not yet implemented or confirmed.
+This is in development. The API described below is experimental and subject to change.
 
 ## Why Use Playwright
 
@@ -10,7 +10,7 @@ Playwright aims to be a ruby library for building and (eventually) sharing comma
 This is project is experimental and not yet v1.0.0
 
 ## Goals
-* Easy API for handling inputs for command line apps
+* Simple API for handling inputs for command line apps
 * Simple API for common flags (--debug, --verbose, etc)
 * Server to post and share scripts
 
@@ -26,7 +26,7 @@ gemfile do
 end
 
 class ExampleCli < Playwright::Cli::Base
-  version = '0.0.1'
+  version '0.0.1'
   # Define a run method and put logic there
   def run
   end

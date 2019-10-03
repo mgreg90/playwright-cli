@@ -1,7 +1,7 @@
-RSpec.describe Playwright::Cli::Finish do
+RSpec.describe Playwright::Cli::Lib::Finish do
   let(:runtime) do
     includer = Class.new
-    includer.include Playwright::Cli::Finish
+    includer.include Playwright::Cli::Lib::Finish
     includer.new
   end
 

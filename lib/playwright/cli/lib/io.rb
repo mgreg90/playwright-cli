@@ -1,7 +1,7 @@
 require 'colorize'
 
-module Playwright
-  module Cli
+module Playwright::Cli
+  module Lib
     module Io
       def io
         @io = IoClass.new

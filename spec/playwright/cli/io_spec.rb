@@ -1,5 +1,5 @@
-RSpec.describe Playwright::Cli::Io do
-  let(:io) { Playwright::Cli::IoClass.new }
+RSpec.describe Playwright::Cli::Lib::Io do
+  let(:io) { Playwright::Cli::Lib::IoClass.new }
   describe "#say" do
     it "outputs the text" do
       expect { io.say "Wow!" }.to output("Wow!\n".cyan.bold).to_stdout

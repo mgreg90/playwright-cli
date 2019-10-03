@@ -3,11 +3,11 @@ RSpec.describe Playwright::Cli do
     expect(Playwright::Cli::VERSION).not_to be nil
   end
 
-  describe Playwright::Cli::Base do
+  describe Playwright::Cli::Lib::Base do
     describe "#version" do
       context "when a version is set" do
         let(:inheritor) do
-          Class.new(Playwright::Cli::Base) do
+          Class.new(Playwright::Cli::Lib::Base) do
             root 'test'
             version '0.0.1'
           end
@@ -24,7 +24,7 @@ RSpec.describe Playwright::Cli do
     describe "#root" do
       context "when a root is set" do
         before do
-          class Inheritor < Playwright::Cli::Base
+          class Inheritor < Playwright::Cli::Lib::Base
             root 'my-command'
           end
         end
@@ -40,7 +40,7 @@ RSpec.describe Playwright::Cli do
     describe "#arguments" do
       context "when arguments are set" do
         before do
-          class Inheritor < Playwright::Cli::Base
+          class Inheritor < Playwright::Cli::Lib::Base
             arguments %i(name age)
           end
         end
@@ -61,7 +61,7 @@ RSpec.describe Playwright::Cli do
 
     describe "#option" do
       let(:inheritor) do
-        Class.new(Playwright::Cli::Base) do
+        Class.new(Playwright::Cli::Lib::Base) do
           option :option1, short: :o, type: :string
           option :option2
         end
@@ -82,13 +82,13 @@ RSpec.describe Playwright::Cli do
       end
       context "when options are set" do
         let(:option1) do
-          Playwright::Cli::Option.new(
+          Playwright::Cli::Lib::Option.new(
             name: :option1,
             short: :o,
             type: :string
           )
         end
-        let(:option2) { Playwright::Cli::Option.new(name: :option2) }
+        let(:option2) { Playwright::Cli::Lib::Option.new(name: :option2) }
         it "returns the options from the class" do
           expect(inheritor.options).to eq [option1, option2]
         end
@@ -98,7 +98,7 @@ RSpec.describe Playwright::Cli do
       end
       context "when there are two inheritors" do
         let(:inheritor2) do
-          Class.new(Playwright::Cli::Base) do
+          Class.new(Playwright::Cli::Lib::Base) do
             option :option3
           end
         end
@@ -111,10 +111,10 @@ RSpec.describe Playwright::Cli do
 
     describe "#subcommand" do
       context "when subcommand is a playwright class" do
-        let(:my_subcommand) { Class.new(Playwright::Cli::Base) }
+        let(:my_subcommand) { Class.new(Playwright::Cli::Lib::Base) }
         let(:inheritor) do
           subc = my_subcommand
-          Class.new(Playwright::Cli::Base) do
+          Class.new(Playwright::Cli::Lib::Base) do
             subcommand subc
           end
         end
@@ -127,7 +127,7 @@ RSpec.describe Playwright::Cli do
         it "should raise a validation error" do
           subc = my_subcommand
           expect do
-            Class.new(Playwright::Cli::Base) do
+            Class.new(Playwright::Cli::Lib::Base) do
               subcommand subc
             end
           end.to raise_error(Playwright::Cli::ValidationError)
@@ -138,7 +138,7 @@ RSpec.describe Playwright::Cli do
         it "should raise a validation error" do
           subc = my_subcommand
           expect do
-            Class.new(Playwright::Cli::Base) do
+            Class.new(Playwright::Cli::Lib::Base) do
               subcommand subc
             end
           end.to raise_error(Playwright::Cli::ValidationError)
