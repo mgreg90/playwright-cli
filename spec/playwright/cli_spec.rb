@@ -39,22 +39,22 @@ RSpec.describe Playwright::Cli do
 
     describe "#arguments" do
       context "when arguments are set" do
-        before do
-          class Inheritor < Playwright::Cli::Lib::Base
+        let(:inheritor) do
+          Class.new(Playwright::Cli::Lib::Base) do
             arguments %i(name age)
           end
         end
         it "returns the arguments from the class" do
-          expect(Inheritor.arguments).to eq [:name, :age]
+          expect(inheritor.arguments).to eq [:name, :age]
         end
         it "returns the arguments from the instance" do
-          expect(Inheritor.new.arguments).to eq [:name, :age]
+          expect(inheritor.new.arguments).to eq [:name, :age]
         end
         it "shortened alias #args works from the class" do
-          expect(Inheritor.args).to eq [:name, :age]
+          expect(inheritor.args).to eq [:name, :age]
         end
         it "shortened alias #args works from the instance" do
-          expect(Inheritor.new.args).to eq [:name, :age]
+          expect(inheritor.new.args).to eq [:name, :age]
         end
       end
     end
@@ -82,13 +82,13 @@ RSpec.describe Playwright::Cli do
       end
       context "when options are set" do
         let(:option1) do
-          Playwright::Cli::Lib::Option.new(
+          Playwright::Cli::Lib::OptionDefinition.new(
             name: :option1,
             short: :o,
             type: :string
           )
         end
-        let(:option2) { Playwright::Cli::Lib::Option.new(name: :option2) }
+        let(:option2) { Playwright::Cli::Lib::OptionDefinition.new(name: :option2) }
         it "returns the options from the class" do
           expect(inheritor.options).to eq [option1, option2]
         end

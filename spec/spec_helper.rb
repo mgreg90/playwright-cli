@@ -14,7 +14,8 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
-  config.before do
-    $stdout = Tempfile.new
-  end
+  # Comment out this block to use pry within a test
+  # config.before do
+  #   $stdout = Tempfile.new
+  # end
 end

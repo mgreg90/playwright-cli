@@ -18,6 +18,10 @@ module Playwright::Cli
           other.args = nil
         end
 
+        def call(argv = ARGV)
+          new(argv).call
+        end
+
         def version new_version = nil
           new_version ? @version = new_version : @version
         end
@@ -26,16 +30,18 @@ module Playwright::Cli
           new_root ? @root = new_root : @root
         end
 
-        def arguments new_args = nil
-          new_args ? @args = new_args : @args
+        def arguments *new_args
+          new_args = new_args.flatten
+          !new_args.empty? ? @args = new_args : @args
         end
         alias_method :args, :arguments
 
-        def option name, short: nil, type: :boolean
-          new_option = Option.new(
+        def option name, short: nil, type: :boolean, desc: nil
+          new_option = OptionDefinition.new(
             name: name,
             short: short,
-            type: type
+            type: type,
+            desc: desc
           )
           @options.push new_option
         end
@@ -45,6 +51,16 @@ module Playwright::Cli
           raise ValidationError.new("Subcommand does not exist!") if is_error
           @subcommands.push new_subcommand
         end
+      end
+
+      attr_reader :argv
+
+      def initialize(argv = ARGV)
+        @runner = Runner.new(self, argv: argv)
+      end
+
+      def call
+        runner.run
       end
 
       def version
@@ -62,10 +78,6 @@ module Playwright::Cli
 
       def options
         self.class.options
-      end
-
-      def call
-        finish :failure if !defined?(:run)
       end
 
       def validate!
